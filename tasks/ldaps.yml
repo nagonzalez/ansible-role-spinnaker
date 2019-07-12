@@ -1,0 +1,68 @@
+---
+- name: set local facts
+  set_fact:
+    l_temp_cacerts_path: /tmp/cacerts
+    l_temp_ldap_ca_path: /tmp/ldap_ca_crt
+
+- name: check if java keystore file already on disk
+  stat:
+    path: "{{ l_temp_cacerts_path }}"
+  register: l_stat_cacerts
+
+- name: copy java keystore to temp directory
+  copy:
+    src: cacerts
+    dest: "{{ l_temp_cacerts_path }}"
+  when: not l_stat_cacerts.stat.exists|bool
+
+- name: copy custom ldap CA certificate to temp directory
+  copy:
+    content: "{{ spinnaker_ldap_ca_crt }}"
+    dest: "{{ l_temp_ldap_ca_path }}"
+
+- name: ensure openjdk is installed
+  package:
+    name: java-1.8.0-openjdk
+    state: present
+
+- name: import ldap server's CA cert into keystore
+  java_cert:
+    cert_path: "{{ l_temp_ldap_ca_path }}"
+    cert_alias: ldap_ca_crt
+    keystore_path: "{{ l_temp_cacerts_path }}"
+    keystore_pass: changeit
+    state: present
+
+- name: slurp up cacert file
+  slurp:
+    src: "{{ l_temp_cacerts_path }}"
+  register: l_slurp_tmp_cacerts
+
+- name: add cacerts configmap
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'configmap-cacerts.yml.j2') }}"
+
+- name: get gate service info
+  k8s:
+    api_version: v1
+    kind: Service
+    name: spin-gate
+    namespace: "{{ spinnaker_namespace }}"
+  register: l_gate_service
+
+- name: Set the gate host and port
+  set_fact:
+    l_gate_host: "{{ l_gate_service.result.spec.clusterIP }}"
+    l_gate_port: "{{ l_gate_service.result.spec.ports[0].port }}"
+
+- name: Wait for gate to become responsive.
+  wait_for:
+    host: "{{ l_gate_host }}"
+    port: "{{ l_gate_port }}"
+    state: started
+
+- name: patch gate deployment
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'deployment-spin-gate.yml.j2') }}"

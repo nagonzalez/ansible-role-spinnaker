@@ -1,0 +1,19 @@
+---
+# tasks file for ansible-role-spinnaker
+
+# setup helm & tiller client
+- include: helm.yml
+
+# install redis
+- include: redis.yml
+  when: spinnaker_redis_install | bool
+
+# install minio
+- include: minio.yml
+  when: spinnaker_minio_install | bool
+
+# setup spinnaker
+- include: spinnaker.yml
+
+# setup ldaps
+- include: ldaps.yml

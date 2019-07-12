@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: configmap-cacerts
+    namespace: {{ spinnaker_namespace }}
+binaryData :
+    cacerts: {{ l_slurp_tmp_cacerts['content'] }}

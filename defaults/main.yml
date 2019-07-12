@@ -1,0 +1,116 @@
+---
+# defaults file for ansible-role-spinnaker
+spinnaker_redis_install: false
+spinnaker_redis_release_name: spin-redis
+spinnaker_redis_chart_version: 3.8.0
+spinnaker_redis_chart_values:
+  password: password
+  nodeSelector: {}
+  cluster:
+    enabled: false
+
+spinnaker_minio_install: false
+spinnaker_minio_release_name: spin-minio
+spinnaker_minio_chart_version: 1.6.3
+spinnaker_minio_chart_values:
+  imageTag: RELEASE.2019-02-13T19-48-27Z
+  serviceType: ClusterIP
+  accessKey: spinnakeradmin
+  secretKey: spinnakeradmin
+  bucket: "spinnaker"
+  nodeSelector: {}
+
+spinnaker_namespace: spinnaker
+spinnaker_release_name: spin-prod
+spinnaker_chart_version: 1.13.2
+spinnaker_chart_values: {}
+  # redis:
+  #   enabled: false
+  #   # External Redis option will be enabled if in-cluster redis is disabled
+  #   external:
+  #     host: "{{ spinnaker_redis_release_name }}-master"
+  #     port: 6379
+  #     password: "{{ spinnaker_redis_chart_values.password }}"
+
+  # minio:
+  #   enabled: false
+
+  # s3:
+  #   enabled: true
+  #   bucket: "{{ spinnaker_minio_chart_values.bucket }}"
+  #   # rootFolder: "front50"
+  #   # region: "us-east-1"
+  #   endpoint: "http://{{ spinnaker_minio_release_name }}:9000"
+  #   accessKey: "{{ spinnaker_minio_chart_values.accessKey }}"
+  #   secretKey: "{{ spinnaker_minio_chart_values.secretKey }}"
+
+  # halyard:
+  #   additionalProfileConfigMaps:
+  #     data:
+  #       front50-local.yml:
+  #         spinnaker:
+  #           s3:
+  #             versioning: false
+  # kubeConfig:
+  #   omittedNameSpaces:
+  #     - cattle-prometheus
+  #     - cattle-system
+  #     - ingress-nginx
+  #     - kube-system
+  #     - spinnaker
+
+  # spinnakerFeatureFlags:
+  #   - artifacts
+  #   - jobs
+  #   - managed-pipeline-templates-v2-ui
+  #   - pipeline-templates
+
+  # ingress:
+  #   enabled: true
+  #   host: spinnaker.apps.noeg.wtf
+  #   annotations:
+  #     ingress.kubernetes.io/ssl-redirect: 'true'
+  #     kubernetes.io/ingress.class: nginx
+  #     certmanager.k8s.io/acme-challenge-type: dns01
+  #     certmanager.k8s.io/acme-dns01-provider: cloudflare
+  #     certmanager.k8s.io/cluster-issuer: letsencrypt-staging
+  #   tls:
+  #   - secretName: deck-tls
+  #     hosts:
+  #     - spinnaker.apps.noeg.wtf
+
+  # ingressGate:
+  #   enabled: true
+  #   host: gate.apps.noeg.wtf
+  #   annotations:
+  #     ingress.kubernetes.io/ssl-redirect: 'true'
+  #     kubernetes.io/ingress.class: nginx
+  #     certmanager.k8s.io/acme-challenge-type: dns01
+  #     certmanager.k8s.io/acme-dns01-provider: cloudflare
+  #     certmanager.k8s.io/cluster-issuer: letsencrypt-staging
+  #   tls:
+  #   - secretName: gate-tls
+  #     hosts:
+  #     - gate.apps.noeg.wtf
+
+spinnaker_ldap_ca_crt: |
+  -----BEGIN CERTIFICATE-----
+  MIIDQjCCAaqgAwIBAgIBATANBgkqhkiG9w0BAQsFADBpMR4wHAYDVQQKExVta2Nl
+  cnQgZGV2ZWxvcG1lbnQgQ0ExHzAdBgNVBAsMFm5vZS5nb256YWxlekBOR09OWjFN
+  TDExJjAkBgNVBAMMHW1rY2VydCBub2UuZ29uemFsZXpATkdPTloxTUwxMB4XDTE5
+  MDcwNzIyMDMyMFoXDTI5MDcwNDIyMDMyMFowHzEdMBsGA1UEAwwUZGMuaW50ZXJu
+  YWwubm9lZy53dGYwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAKmyQV1+EzgT
+  UnZrirJz+1M+7PJ22pxbEuKqiOvP46LuZbbaWVk1SLAVNuG+g7divlhr5J5/s/qF
+  0YMlw3dEQqOfL/1Rb8s4uL7Glkcteh9t36mBVqd75dfmfQAx6iA+a+8eSpCDmK6c
+  T7EF6nG6/fxpEuyXp8N+ucQZFoERVeDpAgMBAAGjQzBBMAsGA1UdDwQEAwIFoDAT
+  BgNVHSUEDDAKBggrBgEFBQcDATAdBgNVHQ4EFgQUTopPVvcWN6FXS6b8N7sKwhCX
+  W6EwDQYJKoZIhvcNAQELBQADggGBAH9wp0ZNrwTZzqBad4wxrFt7IhT7+N7FuNUw
+  Urv0IMHClQ+iOH6oAeC2XofhVqcGTJwiB2agChM6lS+6NNdHfbntuvcNz1U4B9Tr
+  uoY9txw5ocfUcebWc1zdI/Y2CJfI4GB3mvsDySvp3DfQYhAVt/pWTcultckRIwM9
+  R9kuXqPCNGrYwfgr2pYlVkYe0O3BCxvo2A3yUqB0qSJgzzCw/NlpkpHK4bdNzpQO
+  Z0jBEXtEWAjiYHSW8NoWuQX4oguMThjrXpKfFUWTlKzI/eVdU6qXSLytQ0LB5Vil
+  /oLPA53IxIJVs2nfjNFxyFuMSjWQWYRu3U2wmSbfwLs1HXPAet8PqTxdy8wo+dIm
+  +IlBzlDz1i1dUkhunOVM5ovaJJ1eNU2B718OlZ7ctPRlZga+fe8NISUbtLw1icYX
+  CBbRC0q8zKbDv7CkDDp5419QOkO0iPwb4PB9hoQ0SMZTZ0xkAkn0XR2chb8krOij
+  mXlWYi0iYu4QoDpSR4BDbKql+qBlyA==
+  -----END CERTIFICATE-----
