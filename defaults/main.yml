@@ -2,7 +2,7 @@
 # defaults file for ansible-role-spinnaker
 spinnaker_redis_install: false
 spinnaker_redis_release_name: spin-redis
-spinnaker_redis_chart_version: 3.8.0
+spinnaker_redis_chart_version: 8.0.14
 spinnaker_redis_chart_values:
   password: password
   nodeSelector: {}
@@ -11,9 +11,8 @@ spinnaker_redis_chart_values:
 
 spinnaker_minio_install: false
 spinnaker_minio_release_name: spin-minio
-spinnaker_minio_chart_version: 1.6.3
+spinnaker_minio_chart_version: 2.4.16
 spinnaker_minio_chart_values:
-  imageTag: RELEASE.2019-02-13T19-48-27Z
   serviceType: ClusterIP
   accessKey: spinnakeradmin
   secretKey: spinnakeradmin
@@ -22,76 +21,76 @@ spinnaker_minio_chart_values:
 
 spinnaker_namespace: spinnaker
 spinnaker_release_name: spin-prod
-spinnaker_chart_version: 1.13.2
+spinnaker_chart_version: 1.14.0
 spinnaker_chart_values: {}
-  # redis:
-  #   enabled: false
-  #   # External Redis option will be enabled if in-cluster redis is disabled
-  #   external:
-  #     host: "{{ spinnaker_redis_release_name }}-master"
-  #     port: 6379
-  #     password: "{{ spinnaker_redis_chart_values.password }}"
+# redis:
+#   enabled: false
+#   # External Redis option will be enabled if in-cluster redis is disabled
+#   external:
+#     host: "{{ spinnaker_redis_release_name }}-master"
+#     port: 6379
+#     password: "{{ spinnaker_redis_chart_values.password }}"
 
-  # minio:
-  #   enabled: false
+# minio:
+#   enabled: false
 
-  # s3:
-  #   enabled: true
-  #   bucket: "{{ spinnaker_minio_chart_values.bucket }}"
-  #   # rootFolder: "front50"
-  #   # region: "us-east-1"
-  #   endpoint: "http://{{ spinnaker_minio_release_name }}:9000"
-  #   accessKey: "{{ spinnaker_minio_chart_values.accessKey }}"
-  #   secretKey: "{{ spinnaker_minio_chart_values.secretKey }}"
+# s3:
+#   enabled: true
+#   bucket: "{{ spinnaker_minio_chart_values.bucket }}"
+#   # rootFolder: "front50"
+#   # region: "us-east-1"
+#   endpoint: "http://{{ spinnaker_minio_release_name }}:9000"
+#   accessKey: "{{ spinnaker_minio_chart_values.accessKey }}"
+#   secretKey: "{{ spinnaker_minio_chart_values.secretKey }}"
 
-  # halyard:
-  #   additionalProfileConfigMaps:
-  #     data:
-  #       front50-local.yml:
-  #         spinnaker:
-  #           s3:
-  #             versioning: false
-  # kubeConfig:
-  #   omittedNameSpaces:
-  #     - cattle-prometheus
-  #     - cattle-system
-  #     - ingress-nginx
-  #     - kube-system
-  #     - spinnaker
+# halyard:
+#   additionalProfileConfigMaps:
+#     data:
+#       front50-local.yml:
+#         spinnaker:
+#           s3:
+#             versioning: false
+# kubeConfig:
+#   omittedNameSpaces:
+#     - cattle-prometheus
+#     - cattle-system
+#     - ingress-nginx
+#     - kube-system
+#     - spinnaker
 
-  # spinnakerFeatureFlags:
-  #   - artifacts
-  #   - jobs
-  #   - managed-pipeline-templates-v2-ui
-  #   - pipeline-templates
+# spinnakerFeatureFlags:
+#   - artifacts
+#   - jobs
+#   - managed-pipeline-templates-v2-ui
+#   - pipeline-templates
 
-  # ingress:
-  #   enabled: true
-  #   host: spinnaker.apps.noeg.wtf
-  #   annotations:
-  #     ingress.kubernetes.io/ssl-redirect: 'true'
-  #     kubernetes.io/ingress.class: nginx
-  #     certmanager.k8s.io/acme-challenge-type: dns01
-  #     certmanager.k8s.io/acme-dns01-provider: cloudflare
-  #     certmanager.k8s.io/cluster-issuer: letsencrypt-staging
-  #   tls:
-  #   - secretName: deck-tls
-  #     hosts:
-  #     - spinnaker.apps.noeg.wtf
+# ingress:
+#   enabled: true
+#   host: spinnaker.apps.noeg.wtf
+#   annotations:
+#     ingress.kubernetes.io/ssl-redirect: 'true'
+#     kubernetes.io/ingress.class: nginx
+#     certmanager.k8s.io/acme-challenge-type: dns01
+#     certmanager.k8s.io/acme-dns01-provider: cloudflare
+#     certmanager.k8s.io/cluster-issuer: letsencrypt-staging
+#   tls:
+#   - secretName: deck-tls
+#     hosts:
+#     - spinnaker.apps.noeg.wtf
 
-  # ingressGate:
-  #   enabled: true
-  #   host: gate.apps.noeg.wtf
-  #   annotations:
-  #     ingress.kubernetes.io/ssl-redirect: 'true'
-  #     kubernetes.io/ingress.class: nginx
-  #     certmanager.k8s.io/acme-challenge-type: dns01
-  #     certmanager.k8s.io/acme-dns01-provider: cloudflare
-  #     certmanager.k8s.io/cluster-issuer: letsencrypt-staging
-  #   tls:
-  #   - secretName: gate-tls
-  #     hosts:
-  #     - gate.apps.noeg.wtf
+# ingressGate:
+#   enabled: true
+#   host: gate.apps.noeg.wtf
+#   annotations:
+#     ingress.kubernetes.io/ssl-redirect: 'true'
+#     kubernetes.io/ingress.class: nginx
+#     certmanager.k8s.io/acme-challenge-type: dns01
+#     certmanager.k8s.io/acme-dns01-provider: cloudflare
+#     certmanager.k8s.io/cluster-issuer: letsencrypt-staging
+#   tls:
+#   - secretName: gate-tls
+#     hosts:
+#     - gate.apps.noeg.wtf
 
 spinnaker_ldap_ca_crt: |
   -----BEGIN CERTIFICATE-----
